@@ -24,7 +24,7 @@ Nouns:
 
 user, email_address, username, posts, post_title, post_content, post_views
 
-1. Design and create the Table
+1. Design and create the Tables
 
 Table: users
 
@@ -49,10 +49,6 @@ CREATE TABLE users (
     email_address TEXT
 );
 
-INSERT INTO users (username, email_address) VALUES ('User1', 'user1@social_network.test');
-INSERT INTO users (username, e-mail_address) VALUES ('User2', 'user2@social_network.test');
-INSERT INTO users (username, e-mail_address) VALUES ('User3', 'user3@social_network.test');
-
 CREATE TABLE posts (
     id SERIAL,
     post_title TEXT,
@@ -60,6 +56,10 @@ CREATE TABLE posts (
     post_views INT,
     user_id INT
 );
+
+INSERT INTO users (username, email_address) VALUES ('User1', 'user1@social_network.test');
+INSERT INTO users (username, e-mail_address) VALUES ('User2', 'user2@social_network.test');
+INSERT INTO users (username, e-mail_address) VALUES ('User3', 'user3@social_network.test');
 
 INSERT INTO posts (post_title, post_content, post_views, user_id) VALUES ('Post1', 'This is post content 1', '2', 1);
 INSERT INTO posts (post_title, post_content, post_views, user_id) VALUES ('Post2', 'This is post content 2', '5', 2);
@@ -81,9 +81,9 @@ INSERT INTO posts (post_title, post_content, post_views, user_id) VALUES ('Post2
 INSERT INTO posts (post_title, post_content, post_views, user_id) VALUES ('Post3', 'This is post content 3', '10', 3);
 INSERT INTO posts (post_title, post_content, post_views, user_id) VALUES ('Post4', 'This is post content 4', '3', 2);
 
-psql -h 127.0.0.1 social_network < seeds_social_network.sql # this is run once for the original DB
-psql -h 127.0.0.1 social_network_test < seeds_social_network.sql # this is run once for the test DB
-psql -h 127.0.0.1 social_network_test < seeds_social_network_test.sql # this is run once for the test DB
+psql -h 127.0.0.1 social_network < seeds_init.sql # this is run once for the original DB and DB_test
+psql -h 127.0.0.1 social_network < seeds_social_network.sql # this is run once for the test DB
+psql -h 127.0.0.1 social_network_test < seeds_social_network_test.sql
 
 3. Define the class names
 
@@ -124,14 +124,10 @@ class User
   attr_accessor :id, :name, :cohort_name
 end
 
-# Table name: users
+# Table name: posts
 
 # Model class
-# (in lib/user_model.rb)
-
-class User
-  attr_accessor :id, :username, :email_address
-end
+# (in lib/post_model.rb)
 
 class Post
   attr_accessor :id, :post_title, :post_content, :post_views, :user_id
@@ -183,7 +179,7 @@ end
 # Repository class
 # (in lib/posts_repository.rb)
 class PostsRepository
--- post_title | post_content | post_views | user_id
+
   # Selecting all records
   # No arguments
   def all
